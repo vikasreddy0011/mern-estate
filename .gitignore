@@ -3,3 +3,4 @@ objects
 info
 hooks
 logs
+.env
