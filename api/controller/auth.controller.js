@@ -4,13 +4,14 @@ import { errorHandler } from "../utils/error.js";
 
 export const signup = async (req,res,next)=>{
     const {username ,email, password} = req.body;
-    const hashPassword = bcryptjs.hashSync(password,10);
-    const user = new User({username ,email, password:hashPassword} );
     try{
+        const hashPassword = bcryptjs.hashSync(password,10);
+        const user = new User({username ,email, password:hashPassword} );
         await user.save();
         res.status(201).json("User created sucessfully");
     }catch(err){
-        next(errorHandler(500,'Error creating an error'))
+        console.log(err)
+        next(errorHandler(500,err.message))
     }
 
 }
