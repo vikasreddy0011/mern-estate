@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import {useDispatch,useSelector } from 'react-redux';
 import  { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
+import OAuth from '../components/OAuth.jsx';
 
 function SignIn() {
   const [formData,setFormData] = useState({})
   const {loading,error} = useSelector ((state)=>state.user)
+  const [name,setName] = useState("Hen")
+  const [count,setCount] = useState(12)
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,7 +25,7 @@ function SignIn() {
     e.preventDefault();
     try{
       dispatch(signInStart());
-      const res= await fetch('/api/users/signin',
+      const res= await fetch('/api/auth/signin',
       {
         method:"POST",
         headers: {
@@ -42,7 +46,6 @@ function SignIn() {
       dispatch(signInFailure(err.message))
     }
   }
-
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -69,6 +72,7 @@ function SignIn() {
         >
           {loading ? 'Loading...' : 'Sign In'}
         </button>
+        <OAuth/>
       </form>
       <div className='flex gap-2 mt-5'>
         <p>Create an new Account</p>
